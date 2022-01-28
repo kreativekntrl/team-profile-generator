@@ -8,31 +8,6 @@ const Intern = require("./lib/Intern");
 
 const team = [];
 
-//Runs startQuestions
-startQuestions();
-
-// Starts all prompts 
-function startQuestions() {
-    managerPrompt();
-};
-
-// Handles user employee choices 
-/* function buildTeam() {
-    switch (response.memberChoice) {
-        case "Engineer":
-            engineerPrompt();
-            break;
-        case "Intern":
-            internPrompt();
-            break;
-        case "team complete":
-            console.log("your team has been created");
-            break;
-        default:
-            console.log("must select a team member");
-    }
-} */
-
 //Questions for Manager
 function managerPrompt() {
     inquirer
@@ -63,7 +38,7 @@ function managerPrompt() {
                 name: "memberChoice",
             },
         ])
-        .then(function (response) {
+        .then((response) => {
             const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
             team.push(manager);
             switch (response.memberChoice) {
@@ -108,12 +83,12 @@ function engineerPrompt() {
             },
             {
                 type: "list",
-                choices: ["Add Engineer", "Add Intern", "Team Complete!"],
-                message: "What would you like to do next?",
+                message: "Which employee would you like to choose next?",
+                choices: ["Engineer", "Intern", "team complete"],
                 name: "memberChoice",
             },
         ])
-        .then(function (response) {
+        .then((response) => {
             const engineer = new Engineer(response.name, response.id, response.email, response.github);
             team.push(engineer);
             switch (response.memberChoice) {
@@ -157,14 +132,15 @@ function internPrompt() {
             },
             {
                 type: "list",
-                choices: ["Add Engineer", "Add Intern", "Team Complete!"],
-                message: "What would you like to do next?",
+                message: "Which employee would you like to choose next?",
+                choices: ["Engineer", "Intern", "team complete"],
                 name: "memberChoice",
             },
         ])
-        .then(function (response) {
+        .then((response) => {
             const intern = new Intern(response.name, response.id, response.email, response.school);
             team.push(intern);
+            console.log(team);
             switch (response.memberChoice) {
                 case "Engineer":
                     engineerPrompt();
@@ -178,5 +154,11 @@ function internPrompt() {
                 default:
                     console.log("must select a team member");
             }
+            team.forEach((response) => {
+                console.log(response);
+            });
         });
 }
+
+//Calls manager function
+managerPrompt();
