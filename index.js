@@ -54,6 +54,48 @@ function managerPrompt() {
                 default:
                     console.log("team complete");
             }
+            team.forEach(response => {
+                const managerCard = `
+                <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Team Profiles Generator</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <header class="bg-danger py-4 mb-5">
+            <h1 class="text-center text-white">My Team</h1>
+        </header>
+        <main>
+        <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">   
+                
+        <div class="card m-3 shadow" style="width: 300px">
+            <div class="card-header bg-primary text-white">
+                <p class="h3 name">${response.name}</p>
+                <p class="h4 fas fa-mug-hot mr-1">Manager</p>
+            </div>
+            <div class="card-body bg-light">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="font-weight-bold id">ID: ${response.id}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold email">Email: ${response.email} </span>
+                    <a href=""></a>
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold office">Office: ${response.officeNumber} </span>
+                </li>
+            </ul>
+            </div>
+        </div>
+                `
+                fs.writeFile("./dist/team.html", managerCard,  (err) => err ? console.error(err) : console.log('Success!'));
+            })
         });
 }
 
