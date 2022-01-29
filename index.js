@@ -6,7 +6,9 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
-const team = [];
+const managerArray = [];
+const engineerArray = [];
+const internArray = [];
 
 //Questions for Manager
 function managerPrompt() {
@@ -40,7 +42,7 @@ function managerPrompt() {
         ])
         .then((response) => {
             const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
-            team.push(manager);
+            managerArray.push(manager);
             switch (response.memberChoice) {
                 case "Engineer":
                     engineerPrompt();
@@ -54,7 +56,7 @@ function managerPrompt() {
                 default:
                     console.log("team complete");
             }
-            team.forEach(response => {
+            managerArray.forEach(response => {
                 const managerCard = `
                 <!DOCTYPE html>
     <html lang="en">
@@ -94,7 +96,7 @@ function managerPrompt() {
             </div>
         </div>
                 `
-                fs.writeFile("./dist/team.html", managerCard,  (err) => err ? console.error(err) : console.log('Success!'));
+                fs.writeFile("./dist/team.html", managerCard, (err) => console.error(err));
             })
         });
 }
@@ -132,7 +134,7 @@ function engineerPrompt() {
         ])
         .then((response) => {
             const engineer = new Engineer(response.name, response.id, response.email, response.github);
-            team.push(engineer);
+            engineerArray.push(engineer);
             switch (response.memberChoice) {
                 case "Engineer":
                     engineerPrompt();
@@ -146,6 +148,32 @@ function engineerPrompt() {
                 default:
                     console.log("must select a team member");
             }
+            engineerArray.forEach(response => {
+                const engineerCard = `
+                <div class="card m-3 shadow" style="width: 300px">
+            <div class="card-header bg-primary text-white">
+                <p class="h3 name">${response.name}</p>
+                <p class="h4 fas fa-glasses mr-1">Engineer</p>
+            </div>
+            <div class="card-body bg-light">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="font-weight-bold id">ID: ${response.id}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="font-weight-bold email">Email: ${response.email} </span>
+                        <a href=""></a>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="font-weight-bold github">GitHub: ${response.github} </span>
+                        <a href=""></a>
+                    </li>
+               </ul>
+          </div>
+        </div>
+                `
+            fs.appendFile("./dist/team.html", engineerCard, (err) => err ? console.error(err) : console.log('Success!'))
+            })
         });
 }
 
@@ -181,7 +209,7 @@ function internPrompt() {
         ])
         .then((response) => {
             const intern = new Intern(response.name, response.id, response.email, response.school);
-            team.push(intern);
+            internArray.push(intern);
             console.log(team);
             switch (response.memberChoice) {
                 case "Engineer":
