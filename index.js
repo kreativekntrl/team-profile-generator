@@ -96,7 +96,7 @@ function managerPrompt() {
             </div>
         </div>
                 `
-                fs.writeFile("./dist/team.html", managerCard, (err) => console.error(err));
+                fs.writeFile("./dist/team.html", managerCard, (err) => err ? console.error(err) : null);
             })
         });
 }
@@ -172,7 +172,7 @@ function engineerPrompt() {
           </div>
         </div>
                 `
-            fs.appendFile("./dist/team.html", engineerCard, (err) => err ? console.error(err) : console.log('Success!'))
+                fs.appendFile("./dist/team.html", engineerCard, (err) => err ? console.error(err) : null)
             })
         });
 }
@@ -210,7 +210,6 @@ function internPrompt() {
         .then((response) => {
             const intern = new Intern(response.name, response.id, response.email, response.school);
             internArray.push(intern);
-            console.log(team);
             switch (response.memberChoice) {
                 case "Engineer":
                     engineerPrompt();
@@ -224,8 +223,30 @@ function internPrompt() {
                 default:
                     console.log("must select a team member");
             }
-            team.forEach((response) => {
-                console.log(response);
+            internArray.forEach((response) => {
+                const internCard = `
+                <div class="card m-3 shadow" style="width: 300px">
+                <div class="card-header bg-primary text-white">
+                    <p class="h3 name">${response.name}</p>
+                    <p class="h4 fas fa-user-graduate mr-1">Intern </p>
+                </div>
+                <div class="card-body bg-light">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="font-weight-bold id">ID: ${response.id} </span>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold email">Email: ${response.email} </span>
+                            <a href=""></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="font-weight-bold school">School: ${response.school} </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+                `
+            fs.appendFile("./dist/team.html", internCard, (err) => err ? console.error(err) : null)
             });
         });
 }
